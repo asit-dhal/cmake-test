@@ -13,26 +13,26 @@ configuration:
 matrix:
   include:
   - os: osx
-    osx_image: xcode9
-    compiler: clang
+    osx_image: xcode12
+    compiler: gcc
   - os: linux
     compiler: gcc
     env:
-      - CXX_COMPILER=g++-7
-      - C_COMPILER=gcc-7
+      - CXX_COMPILER=g++-9
+      - C_COMPILER=gcc-9
     addons:
       apt:
         sources: ["ubuntu-toolchain-r-test"]
         packages: ["g++-7", "ninja-build"]
   - os: linux
-    compiler: clang
+    compiler: gcc
     env:
-      - CXX_COMPILER=clang++-5.0
-      - C_COMPILER=clang-5.0
+      - CXX_COMPILER=g++-9
+      - C_COMPILER=gcc-9
     addons:
       apt:
-        sources: ["ubuntu-toolchain-r-test", "llvm-toolchain-trusty-5.0"]
-        packages: ["clang-5.0", "g++-7", "ninja-build"]
+        sources: ["ubuntu-toolchain-r-test"]
+        packages: ["g++-9", "ninja-build"]
 
 before_install:
   - export CXX=${CXX_COMPILER}
@@ -44,6 +44,8 @@ script:
   - cmake -DCMAKE_BUILD_TYPE=$configuration ..;
   - cmake --build . --target all
   - cmake --install .
+  - ls -lrt bin/
+  - ls -lrt lib/
 
 notifications:
 email: false
